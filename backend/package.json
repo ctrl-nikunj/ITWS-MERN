@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dct2": "^0.1.4",
+    "discrete-wavelets": "^5.0.15",
+    "express": "^5.1.0",
+    "jimp": "^1.6.0",
+    "mathjs": "^14.6.0",
+    "ml-matrix": "^6.12.1",
+    "multer": "^2.0.2"
+  }
+}
