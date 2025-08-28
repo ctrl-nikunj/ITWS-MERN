@@ -41,8 +41,8 @@ A **full-stack web application** for **image steganography** using **DWT + DCT**
 ## Installation
 
 ```bash
-git clone <your-repo-url>
-cd <repo-folder>
+git clone https://github.com/ctrl-nikunj/ITWS-MERN
+cd itws-js
 npm install
 
 ```
