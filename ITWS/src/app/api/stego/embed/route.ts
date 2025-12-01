@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { runStegoWorker } from '@/lib/run-worker';
+import { stegoEmbed } from '@/lib/stego-worker.mjs';
 
 export async function POST(req: NextRequest) {
     try {
@@ -14,16 +14,15 @@ export async function POST(req: NextRequest) {
         const coverBuffer = Buffer.from(await coverFile.arrayBuffer());
         const secretBuffer = Buffer.from(await secretFile.arrayBuffer());
 
-        const result = await runStegoWorker({
-            type: 'embed',
-            cover: coverBuffer,
-            secret: secretBuffer,
-        });
+        const result = await stegoEmbed(
+            coverBuffer,
+            secretBuffer,
+        );
 
-        if (result.success) {
-            return NextResponse.json({ stego: result.data });
+        if (result) {
+            return NextResponse.json({ stego: result });
         } else {
-            return NextResponse.json({ error: result.error }, { status: 500 });
+            return NextResponse.json({ error: result }, { status: 500 });
         }
     } catch (error: any) {
         console.error("API Error:", error);

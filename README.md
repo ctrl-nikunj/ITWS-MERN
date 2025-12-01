@@ -2,13 +2,10 @@
 
 StegoScramble is a modern web application built with Next.js 16 that implements advanced steganography techniques to hide secret images within cover images. It utilizes Inverse-Transpose Wavelet Scrambling to ensure that the hidden data is invisible to the naked eye and robust against detection.
 
-![Hero Image](/hero-stego.jpg)
-
 ## Features
 
 - **Advanced Steganography**: Hide secret images inside cover images using sophisticated pixel scrambling algorithms.
 - **Inverse-Transpose Wavelet Scrambling**: A unique technique that combines wavelet transforms with transposition and scrambling for enhanced security.
-- **Client-Side Processing**: Utilizes Web Workers for efficient image processing without blocking the main thread.
 - **Modern UI/UX**: Built with React 19, Tailwind CSS 4, and Radix UI for a sleek, responsive, and accessible user interface.
 - **Real-time Preview**: Visualize the cover and secret images before processing.
 
@@ -62,7 +59,7 @@ Ensure you have Node.js installed on your machine.
 
 - `src/app`: Next.js App Router pages and API routes.
 - `src/components`: Reusable UI components (`StegoProcessor`, `TechniqueSection`, etc.).
-- `src/lib`: Utility functions and worker scripts for image processing.
+- `src/lib`: Utility functions and scripts for image processing.
 - `public`: Static assets.
 
 ## License

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { runStegoWorker } from '@/lib/run-worker';
+import { stegoExtract } from '@/lib/stego-worker.mjs';
 
 export async function POST(req: NextRequest) {
     try {
@@ -14,19 +14,15 @@ export async function POST(req: NextRequest) {
         const stegoBuffer = Buffer.from(await stegoFile.arrayBuffer());
         const coverBuffer = Buffer.from(await coverFile.arrayBuffer());
 
-        const result = await runStegoWorker({
-            type: 'extract',
-            stego: stegoBuffer,
-            cover: coverBuffer,
-        });
+        const result = await stegoExtract(stegoBuffer, coverBuffer);
 
-        if (result.success) {
-            return NextResponse.json({ success: true, secret: result.data });
+        if (result) {
+            return NextResponse.json({ secret: result });
         } else {
-            return NextResponse.json({ success: false, error: result.error }, { status: 500 });
+            return NextResponse.json({ error: result }, { status: 500 });
         }
     } catch (error: any) {
         console.error("API Error:", error);
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

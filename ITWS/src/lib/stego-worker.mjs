@@ -1,4 +1,3 @@
-import { parentPort } from "worker_threads";
 import { Jimp } from "jimp";
 import { rgbaToInt } from "@jimp/utils";
 import wt from "discrete-wavelets";
@@ -100,7 +99,7 @@ function idwt2(matrix, wavelet = "haar") {
 }
 
 /* ---------- Stego Functions ---------- */
-async function stegoEmbed(coverBuf, secretBuf) {
+export async function stegoEmbed(coverBuf, secretBuf) {
   const cover = await imageToMatrix(coverBuf);
   const secret = await imageToMatrix(secretBuf);
 
@@ -121,7 +120,7 @@ async function stegoEmbed(coverBuf, secretBuf) {
   return await matrixToImage(stego);
 }
 
-async function stegoExtract(stegoBuf, coverBuf) {
+export async function stegoExtract(stegoBuf, coverBuf) {
   const stego = await imageToMatrix(stegoBuf);
   const cover = await imageToMatrix(coverBuf);
 
@@ -141,26 +140,3 @@ async function stegoExtract(stegoBuf, coverBuf) {
 
   return await matrixToImage(secret);
 }
-
-/* ---------- Worker Handler ---------- */
-parentPort.on("message", async (task) => {
-  try {
-    if (task.type === "embed") {
-      // Buffers might be transferred as Uint8Array, ensure Buffer
-      const cover = Buffer.from(task.cover);
-      const secret = Buffer.from(task.secret);
-      const result = await stegoEmbed(cover, secret);
-      parentPort.postMessage({ success: true, data: result });
-    } else if (task.type === "extract") {
-      const stego = Buffer.from(task.stego);
-      const cover = Buffer.from(task.cover);
-      const result = await stegoExtract(stego, cover);
-      parentPort.postMessage({ success: true, data: result });
-    } else {
-      parentPort.postMessage({ success: false, error: "Unknown task type" });
-    }
-  } catch (error) {
-    console.error("Worker Error:", error);
-    parentPort.postMessage({ success: false, error: error.message });
-  }
-});
