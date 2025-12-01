@@ -10,11 +10,10 @@ export function runStegoWorker(task: any): Promise<any> {
         const worker = new Worker(workerPath);
 
         worker.on('message', (result) => {
-            console.log("worker started");
             resolve(result);
             // Terminate worker after single use to save resources (or keep a pool if high load)
             // For this task, terminating is fine.
-
+            worker.terminate();
         });
 
         worker.on('error', (err) => {
