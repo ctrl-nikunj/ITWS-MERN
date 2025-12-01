@@ -1,3 +1,4 @@
+import { parentPort } from "worker_threads";
 import { Jimp } from "jimp";
 import { rgbaToInt } from "@jimp/utils";
 import wt from "discrete-wavelets";
@@ -140,3 +141,25 @@ export async function stegoExtract(stegoBuf, coverBuf) {
 
   return await matrixToImage(secret);
 }
+
+parentPort.on("message", async (task) => {
+  try {
+    if (task.type === "embed") {
+      // Buffers might be transferred as Uint8Array, ensure Buffer
+      const cover = Buffer.from(task.cover);
+      const secret = Buffer.from(task.secret);
+      const result = await stegoEmbed(cover, secret);
+      parentPort.postMessage({ success: true, data: result });
+    } else if (task.type === "extract") {
+      const stego = Buffer.from(task.stego);
+      const cover = Buffer.from(task.cover);
+      const result = await stegoExtract(stego, cover);
+      parentPort.postMessage({ success: true, data: result });
+    } else {
+      parentPort.postMessage({ success: false, error: "Unknown task type" });
+    }
+  } catch (error) {
+    console.error("Worker Error:", error);
+    parentPort.postMessage({ success: false, error: error.message });
+  }
+});
