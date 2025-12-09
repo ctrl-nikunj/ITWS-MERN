@@ -73,7 +73,7 @@ export const TechniqueSection = () => {
               <div>
                 <p className="font-medium">Embedding Phase</p>
                 <p className="text-sm text-muted-foreground">
-                  Scrambled pixels are embedded into the LSBs of the cover image, distributed across color channels
+                  Scrambled pixels are embedded into the cover image using adaptive threshold masking.
                 </p>
               </div>
             </div>
@@ -82,7 +82,7 @@ export const TechniqueSection = () => {
               <div>
                 <p className="font-medium">Extraction Phase</p>
                 <p className="text-sm text-muted-foreground">
-                  LSBs are extracted from the stego image and de-scrambled using the same algorithm to recover the secret
+                  The whole embedding is porocess is executed in the exact same opposite order.
                 </p>
               </div>
             </div>

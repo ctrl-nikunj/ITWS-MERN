@@ -189,6 +189,7 @@ export const StegoProcessor = () => {
           )}
         </TabsContent>
       </Tabs>
+      <p className="text-zinc-400 text-center pt-2">* Results may vary due to application of a MATLAB project on Javascript</p>
     </div>
   );
 };
